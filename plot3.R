@@ -1,0 +1,12 @@
+library(lubridate)
+data <- read.csv("household_power_consumption.txt", sep = ";", header = TRUE, na.strings = "?")
+data$Date <- dmy(data$Date)
+data <- subset(data, data$Date == as.Date("2007-02-01") | data$Date == as.Date("2007-02-02"))
+dateandtime <- ymd_hms(paste(data$Date, data$Time))
+png("plot3.png", width = 480, height = 480)
+plot(dateandtime, data$Sub_metering_1, type = "l", xlab = "", ylab = "Energy Sub Metering")
+lines(dateandtime, data$Sub_metering_2, col = "red")
+lines(dateandtime, data$Sub_metering_3, col = "blue")
+legend("topright", lty = 1, lwd = 3, col = c("black", "red", "blue") , legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
+dev.off()
+
